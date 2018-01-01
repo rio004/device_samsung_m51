@@ -1129,3 +1129,10 @@ service boot_lc_logcat /system/bin/logcat -f /cache/boot_lc_logcat.txt
 #    stop boot_lc
 #    stop boot_lc_crash
 #    stop boot_lc_kernel
+
+on property:vendor.post_boot.parsed=1
+    # Setup permission for powerHAL
+    chown system system /dev/stune/top-app/schedtune.boost
+    chown system system /sys/class/kgsl/kgsl-3d0/devfreq/min_freq
+    chown system system /sys/class/kgsl/kgsl-3d0/devfreq/max_freq
+    chown system system /sys/class/devfreq/soc:qcom,gpubw/min_freq

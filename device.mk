@@ -351,7 +351,7 @@ PRODUCT_COPY_FILES += \
 
 # Power
 PRODUCT_PACKAGES += \
-    android.hardware.power@1.3-service.samsung_m51 \
+    android.hardware.power-service.samsung-libperfmgr \
     libqti-perfd-client
 
 PRODUCT_COPY_FILES += \
@@ -420,6 +420,9 @@ PRODUCT_BOOT_JARS += \
 # Soong namespaces
 PRODUCT_SOONG_NAMESPACES += \
     $(LOCAL_PATH) \
+    hardware/google/interfaces \
+    hardware/google/pixel \
+    hardware/samsung/aidl/power-libperfmgr
 
 # Trust
 PRODUCT_PACKAGES += \
