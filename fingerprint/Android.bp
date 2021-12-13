@@ -1,6 +1,8 @@
-cc_defaults {
-    name: "samsung_m51_fingerprint_defaults",
+cc_binary {
+    name: "android.hardware.biometrics.fingerprint@2.1-service.samsung_m51",
     defaults: ["hidl_defaults"],
+    init_rc: ["android.hardware.biometrics.fingerprint@2.1-service.samsung_m51.rc"],
+    vintf_fragments: ["android.hardware.biometrics.fingerprint@2.1-service.samsung_m51.xml"],
     vendor: true,
     relative_install_path: "hw",
     srcs: [
@@ -17,23 +19,5 @@ cc_defaults {
         "libutils",
         "android.hardware.biometrics.fingerprint@2.1",
     ],
-}
 
-cc_binary {
-    name: "android.hardware.biometrics.fingerprint@2.1-service.samsung_m51",
-    defaults: ["samsung_m51_fingerprint_defaults"],
-    init_rc: ["android.hardware.biometrics.fingerprint@2.1-service.samsung_m51.rc"],
-    vintf_fragments: ["android.hardware.biometrics.fingerprint@2.1-service.samsung_m51.xml"],
-}
-
-cc_binary {
-    name: "android.hardware.biometrics.fingerprint@2.1-service.samsung_m51-ext",
-    defaults: ["samsung_m51_fingerprint_defaults"],
-    init_rc: ["android.hardware.biometrics.fingerprint@2.1-service.samsung_m51-ext.rc"],
-    vintf_fragments: [
-        "android.hardware.biometrics.fingerprint@2.1-service.samsung_m51.xml",
-        "vendor.samsung.hardware.fingerprintextension@1.0.xml",
-    ],
-    shared_libs: ["vendor.samsung.hardware.fingerprintextension@1.0"],
-    cflags: ["-DSAMSUNG_FINGERPRINTEXTENSION"],
 }
