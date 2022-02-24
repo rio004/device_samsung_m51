@@ -239,5 +239,5 @@ BOARD_HOSTAPD_DRIVER := NL80211
 BOARD_HOSTAPD_PRIVATE_LIB := lib_driver_cmd_qcwcn
 
 # Inherit from the proprietary version
-include vendor/xiaomi/m51/BoardConfigVendor.mk
+include vendor/samsung/m51/BoardConfigVendor.mk
 
