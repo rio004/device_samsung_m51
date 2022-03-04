@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 The Android Open Source Project
+ * Copyright (C) 2020 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,46 +14,66 @@
  * limitations under the License.
  */
 
-#define LOG_TAG "android.hardware.power@1.3-service.samsung-libperfmgr"
+#define LOG_TAG "android.hardware.power-service.samsung-libperfmgr"
 
-#include <android/log.h>
-#include <hidl/HidlTransportSupport.h>
+#include <thread>
+
+#include <android-base/logging.h>
+#include <android-base/properties.h>
+#include <android/binder_manager.h>
+#include <android/binder_process.h>
 
 #include "Power.h"
+#include "PowerExt.h"
 
-using android::OK;
-using android::sp;
-using android::status_t;
+using aidl::google::hardware::power::impl::pixel::Power;
+using aidl::google::hardware::power::impl::pixel::PowerExt;
+using ::android::perfmgr::HintManager;
 
-// libhwbinder:
-using android::hardware::configureRpcThreadpool;
-using android::hardware::joinRpcThreadpool;
+constexpr std::string_view kPowerHalInitProp("vendor.powerhal.init");
+constexpr std::string_view kConfigProperty("vendor.powerhal.config");
+constexpr std::string_view kConfigDefaultFileName("powerhint.json");
 
-// Generated HIDL files
-using android::hardware::power::V1_3::IPower;
-using android::hardware::power::V1_3::implementation::Power;
+int main() {
+    const std::string config_path =
+            "/vendor/etc/" +
+            android::base::GetProperty(kConfigProperty.data(), kConfigDefaultFileName.data());
+    LOG(INFO) << "Pixel Power HAL AIDL Service with Extension is starting with config: "
+              << config_path;
 
-int main(int /* argc */, char ** /* argv */) {
-    ALOGI("Power HAL Service 1.3 for Samsung is starting.");
-
-    android::sp<IPower> service = new Power();
-    if (service == nullptr) {
-        ALOGE("Can not create an instance of Power HAL Iface, exiting.");
-        return 1;
-    }
-    android::hardware::setMinSchedulerPolicy(service, SCHED_NORMAL, -20);
-    configureRpcThreadpool(1, true /*callerWillJoin*/);
-
-    status_t status = service->registerAsService();
-    if (status != OK) {
-        ALOGE("Could not register service for Power HAL Iface (%d), exiting.", status);
-        return 1;
+    // Parse config but do not start the looper
+    std::shared_ptr<HintManager> hm = HintManager::GetFromJSON(config_path, false);
+    if (!hm) {
+        LOG(FATAL) << "Invalid config: " << config_path;
     }
 
-    ALOGI("Power Service is ready");
-    joinRpcThreadpool();
+    // single thread
+    ABinderProcess_setThreadPoolMaxThreadCount(0);
 
-    // In normal operation, we don't expect the thread pool to exit
-    ALOGE("Power Service is shutting down");
-    return 1;
+    // core service
+    std::shared_ptr<Power> pw = ndk::SharedRefBase::make<Power>(hm);
+    ndk::SpAIBinder pwBinder = pw->asBinder();
+
+    // extension service
+    std::shared_ptr<PowerExt> pwExt = ndk::SharedRefBase::make<PowerExt>(hm);
+
+    // attach the extension to the same binder we will be registering
+    CHECK(STATUS_OK == AIBinder_setExtension(pwBinder.get(), pwExt->asBinder().get()));
+
+    const std::string instance = std::string() + Power::descriptor + "/default";
+    binder_status_t status = AServiceManager_addService(pw->asBinder().get(), instance.c_str());
+    CHECK(status == STATUS_OK);
+    LOG(INFO) << "Pixel Power HAL AIDL Service with Extension is started.";
+
+    std::thread initThread([&]() {
+        ::android::base::WaitForProperty(kPowerHalInitProp.data(), "1");
+        hm->Start();
+    });
+    initThread.detach();
+
+    ABinderProcess_joinThreadPool();
+
+    // should not reach
+    LOG(ERROR) << "Pixel Power HAL AIDL Service with Extension just died.";
+    return EXIT_FAILURE;
 }
