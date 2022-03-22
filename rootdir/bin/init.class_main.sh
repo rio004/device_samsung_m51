@@ -33,18 +33,7 @@
 baseband=`getprop ro.baseband`
 sgltecsfb=`getprop persist.vendor.radio.sglte_csfb`
 datamode=`getprop persist.vendor.data.mode`
-low_ram=`getprop ro.config.low_ram`
 qcrild_status=false
-
-case "$baseband" in
-    "apq" | "sda" | "qcs" )
-    setprop ro.vendor.radio.noril yes
-    stop vendor.ril-daemon
-    stop vendor.qcrild
-esac
-
-case "$baseband" in
-    "msm" | "csfb" | "svlte2a" | "mdm" | "mdm2" | "sglte" | "sglte2" | "dsda2" | "unknown" | "dsda3" | "sdm" | "sdx" | "sm6")
 
     # For older modem packages launch ril-daemon.
     if [ -f /vendor/firmware_mnt/verinfo/ver_info.txt ]; then
@@ -140,7 +129,6 @@ case "$baseband" in
         *)
             ;;
     esac
-esac
 
 #
 # Allow persistent faking of bms

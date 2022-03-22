@@ -373,10 +373,19 @@ PRODUCT_COPY_FILES += \
 
 # Ramdisk
 PRODUCT_PACKAGES += \
-    init.target.rc \
-    init.recovery.qcom.rc \
-    fstab.qcom \
-    ueventd.qcom.rc
+   fstab.qcom \
+   init.qcom.rc \
+   init.qcom.usb.rc \
+   init.samsung.bsp.rc \
+   init.samsung.display.rc \
+   init.samsung.rc \
+   init.target.rc \
+   ueventd.qcom.rc \
+   init.class_main.sh \
+   init.qcom.early_boot.sh \
+   init.qcom.post_boot.sh \
+   init.qcom.sh \
+   init.qti.chg_policy.sh
 
 # RIL
 PRODUCT_PACKAGES += \

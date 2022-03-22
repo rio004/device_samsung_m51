@@ -64,10 +64,6 @@ on post-fs
 # Meta event
     chown system radio /sys/class/sensors/sensor_dev/flush
 
-on post-fs-data
-    #argos
-    chown system system /dev/network_throughput
-	
 # Camera Boost
     chown cameraserver cameraserver /sys/kernel/mm/vmscan/mem_boost_mode
 
@@ -96,26 +92,6 @@ on early-boot
     chown system radio /sys/class/sec/tsp2/cmd
     chown system system /sys/class/sec/tsp2/input/enabled
     chmod 0660 /sys/class/sec/tsp2/input/enabled
-
-# Permission for Wacom
-    chown system radio /sys/class/sec/sec_epen/cmd
-    chown system system /sys/class/sec/sec_epen/input/enabled
-    chmod 0660 /sys/class/sec/sec_epen/input/enabled
-    chown system radio /sys/class/sec/sec_epen/epen_firm_update
-    chown system radio /sys/class/sec/sec_epen/epen_reset
-    chown system radio /sys/class/sec/sec_epen/epen_reset_result
-    chown system radio /sys/class/sec/sec_epen/epen_checksum
-    chown system radio /sys/class/sec/sec_epen/epen_checksum_result
-    chown system radio /sys/class/sec/sec_epen/epen_saving_mode
-    chown system radio /sys/class/sec/sec_epen/epen_wcharging_mode
-    chown system radio /sys/class/sec/sec_epen/epen_ble_charging_mode
-    chown system radio /sys/class/sec/sec_epen/keyboard_mode
-    chown system radio /sys/class/sec/sec_epen/epen_disable_mode
-    chown system radio /sys/class/sec/sec_epen/aod_enable
-    chown system radio /sys/class/sec/sec_epen/aod_lcd_onoff_status
-    chown system radio /sys/class/sec/sec_epen/screen_off_memo_enable
-    chown system radio /sys/class/sec/sec_epen/dex_enable
-    chown system system /sys/class/sec/sec_epen/hw_param
 
 on boot
     # Permission for nfc, eSE driver
@@ -154,19 +130,9 @@ on boot
     chmod 0664 /sys/class/devfreq/soc:qcom,cpu6-cpu-ddr-latfloor/min_freq
     chmod 0664 /sys/class/devfreq/soc:qcom,cpu6-cpu-ddr-latfloor/max_freq
 
-# ARGOSD
-service argos-daemon /system/vendor/bin/argosd
-    class main
-    user system
-    group system radio
-    disabled
-
 # SENSOR DAEMON
 service factory_ssc /vendor/bin/factory.ssc
     class core
     user system
     group system radio inet diag net_admin net_raw sdcard_rw sdcard_r media_rw
-
-on property:sys.boot_completed=1
-    start argos-daemon
 
