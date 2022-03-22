@@ -28,6 +28,10 @@ PRODUCT_AAPT_PREF_CONFIG := xxhdpi
 TARGET_SCREEN_HEIGHT := 2400
 TARGET_SCREEN_WIDTH := 1080
 
+# AID/fs configs
+PRODUCT_PACKAGES += \
+    fs_config_files
+
 # ANT+
 PRODUCT_PACKAGES += \
     AntHalService-Soong \
