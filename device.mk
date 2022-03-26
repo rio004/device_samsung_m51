@@ -44,28 +44,18 @@ PRODUCT_PACKAGES += \
 
 # Audio
 PRODUCT_PACKAGES += \
+    android.hardware.audio.service \
     android.hardware.audio@6.0-impl \
     android.hardware.audio.effect@6.0-impl \
-    android.hardware.audio.service \
+    android.hardware.soundtrigger@2.2-impl \
     audio.a2dp.default \
-    audio.primary.sm6150 \
     audio.r_submix.default \
     audio.usb.default \
-    liba2dpoffload \
-    libaudio-resampler \
-    libbatterylistener \
-    libcirrusspkrprot \
-    libcomprcapture \
-    libexthwplugin \
-    libhdmiedid \
-    libhfp \
-    libqcompostprocbundle \
+    libaudioalsa \
+    libtinycompress \
     libqcomvisualizer \
     libqcomvoiceprocessing \
-    libsndmonitor \
-    libspkrprot \
-    libtinycompress \
-    libtinycompress.vendor \
+    libqcompostprocbundle \
     libvolumelistener
 
 PRODUCT_COPY_FILES += \
@@ -100,26 +90,27 @@ PRODUCT_PACKAGES += \
 
 # Camera
 PRODUCT_PACKAGES += \
-    android.hardware.camera.provider@2.4-impl \
-    android.hardware.camera.provider@2.4-service_64 \
-    libdng_sdk.vendor \
-    libgui_vendor \
-    libxml2 \
+    android.hardware.camera.provider@2.4-legacy \
+    android.hardware.camera.provider@2.5-legacy \
+    camera.device@1.0-impl \
+    camera.device@3.2-impl \
+    camera.device@3.3-impl \
+    camera.device@3.4-impl \
+    camera.device@3.5-impl \
+    libgrallocusage.vendor \
     vendor.qti.hardware.camera.device@1.0.vendor \
-    android.hidl.memory.block@1.0.vendor \
-    libstdc++.vendor \
+    android.hardware.camera.device@3.6.vendor \
+    android.hardware.camera.provider@2.6.vendor \
     Snap
 
 # Crypto
 PRODUCT_PACKAGES += \
-    android.hardware.gatekeeper@1.0.vendor \
-    android.hardware.keymaster@4.1.vendor
+    android.hardware.gatekeeper@1.0-impl \
+    android.hardware.gatekeeper@1.0-service \
+    android.hardware.keymaster@4.0-service.samsung
 
-# CNE
-PRODUCT_PACKAGES += \
-    cneapiclient \
-    com.quicinc.cne \
-    services-ext
+PRODUCT_COPY_FILES += \
+    $(DEVICE_PATH)/configs/init/android.hardware.gatekeeper@1.0-service.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/android.hardware.gatekeeper@1.0-service.rc
 
 # Dex
 PRODUCT_DEX_PREOPT_DEFAULT_COMPILER_FILTER := verify
@@ -182,10 +173,6 @@ PRODUCT_PACKAGES += \
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/rootdir/etc/fstab.qcom:$(TARGET_COPY_OUT_RAMDISK)/fstab.qcom
 
-# Freeform Multiwindow
-PRODUCT_COPY_FILES += \
-    frameworks/native/data/etc/android.software.freeform_window_management.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.software.freeform_window_management.xml
-
 # GPS
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/gps/flp.conf:$(TARGET_COPY_OUT_VENDOR)/etc/flp.conf \
@@ -206,12 +193,6 @@ PRODUCT_PACKAGES += \
     android.hardware.health@2.1-impl \
     android.hardware.health@2.1-impl.recovery \
     android.hardware.health@2.1-service
-
-# Init
-PRODUCT_PACKAGES += \
-    fstab.qcom \
-    init.qcom.rc \
-    ueventd.qcom.rc
 
 # IPC router config
 PRODUCT_COPY_FILES += \
@@ -401,7 +382,6 @@ PRODUCT_PACKAGES += \
 
 # Seccomp
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/configs/seccomp/atfwd@2.0.policy:$(TARGET_COPY_OUT_VENDOR)/etc/seccomp_policy/atfwd@2.0.policy \
     $(LOCAL_PATH)/configs/seccomp/mediacodec.policy:$(TARGET_COPY_OUT_VENDOR)/etc/seccomp_policy/mediacodec.policy \
     $(LOCAL_PATH)/configs/seccomp/vendor.qti.hardware.dsp.policy:$(TARGET_COPY_OUT_VENDOR)/etc/seccomp_policy/vendor.qti.hardware.dsp.policy \
 
@@ -410,8 +390,8 @@ PRODUCT_PACKAGES += \
     libsensorndkbridge
 
 PRODUCT_PACKAGES += \
-    android.hardware.sensors@1.0-impl \
-    android.hardware.sensors@1.0-service
+    android.hardware.sensors@2.1-service.samsung-multihal \
+    android.hardware.sensors@2.0-ScopedWakelock.vendor
 
 # Telephony
 PRODUCT_PACKAGES += \
@@ -473,10 +453,6 @@ PRODUCT_PACKAGES += \
     libavservices_minijail \
     libavservices_minijail.vendor \
     libdisplayconfig.qti \
-    libdisplayconfig.vendor \
     libminijail \
     libnl \
     libqdMetaData \
-    libqdMetaData.system \
-    libqdMetaData.vendor \
-    libwfdaac_vendor
