@@ -299,7 +299,40 @@ PRODUCT_PACKAGES += \
 
 # Rootdir
 PRODUCT_PACKAGES += \
-    init.device.rc
+    init.m51.rc \
+    fstab.default \
+    fstab.default.ramdisk \
+    init.qcom.factory.rc \
+    init.qcom.rc \
+    init.qcom.usb.rc \
+    init.samsung.bsp.rc \
+    init.samsung.display.rc \
+    init.samsung.rc \
+    init.target.rc \
+    ueventd.qcom.rc \
+    wifi_qcom.rc \
+    init.nfc.samsung.rc \
+    init.vendor.onebinary.rc \
+    init.vendor.rilchip.rc \
+    init.vendor.rilcommon.rc \
+    init.vendor.sensors.rc \
+    init.vendor.sysfw.rc
+
+PRODUCT_PACKAGES += \
+    init.class_main.sh \
+    init.crda.sh \
+    init.qcom.early_boot.sh \
+    init.qcom.post_boot.sh \
+    init.qcom.sdio.sh \
+    init.qcom.sh \
+    init.qcom.usb.sh \
+    init.qti.chg_policy.sh \
+    init.qti.dcvs.sh \
+    init.qcom.coex.sh \
+    init.qcom.efs.sync.sh \
+    init.qcom.sensors.sh \
+    init.qti.qcv.sh \
+    qca6234-service.sh
 
 # Seccomp
 PRODUCT_COPY_FILES += \
