@@ -403,16 +403,6 @@
         <fqname>@1.0::ISehDevicesFactory/default</fqname>
     </hal>
     <hal format="hidl">
-        <name>vendor.samsung.hardware.biometrics.face</name>
-        <transport>hwbinder</transport>
-        <version>2.0</version>
-        <interface>
-            <name>ISehBiometricsFace</name>
-            <instance>default</instance>
-        </interface>
-        <fqname>@2.0::ISehBiometricsFace/default</fqname>
-    </hal>
-    <hal format="hidl">
         <name>vendor.samsung.hardware.biometrics.fingerprint</name>
         <transport>hwbinder</transport>
         <version>3.0</version>
@@ -521,17 +511,6 @@
         <fqname>@2.0::ISehChannel/epdgd2</fqname>
         <fqname>@2.0::ISehChannel/imsd</fqname>
         <fqname>@2.0::ISehChannel/imsd2</fqname>
-    </hal>
-    <hal format="hidl" override="true">
-    <hal format="hidl">
-        <name>vendor.samsung.hardware.security.widevine.keyprov</name>
-        <transport>hwbinder</transport>
-        <version>1.0</version>
-        <interface>
-            <name>ISehWidevineKeyProvisioning</name>
-            <instance>default</instance>
-        </interface>
-        <fqname>@1.0::ISehWidevineKeyProvisioning/default</fqname>
     </hal>
     <hal format="hidl">
         <name>vendor.samsung.hardware.snap</name>
