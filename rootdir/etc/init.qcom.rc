@@ -25,9 +25,7 @@
 # ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
-import /vendor/etc/init/hw/init.qti.ufs.rc
 import /vendor/etc/init/hw/init.qcom.usb.rc
-import /vendor/etc/init/hw/init.qcom.test.rc
 import /vendor/etc/init/hw/init.target.rc
 import /vendor/etc/init/hw/init.qcom.factory.rc
 
@@ -661,18 +659,6 @@ service vendor.move_wifi_data /system/bin/move_wifi_data.sh
     disabled
     oneshot
 
-service wigignpt /vendor/bin/wigignpt
-    interface vendor.qti.hardware.wigig.netperftuner@1.0::INetPerfTuner default
-    class hal
-    socket wigig/wigignpt stream 660 system wifi
-    user system
-    group wifi
-    capabilities NET_ADMIN
-    disabled
-
-on property:persist.vendor.wigig.npt.enable=1
-    start wigignpt
-
 service vendor.sensingdaemon /vendor/bin/sensingdaemon
     class hal
     socket wigig/sensingdaemon stream 660 system wifi
@@ -873,7 +859,7 @@ service profiler_daemon /system/bin/profiler_daemon
     group root
     disabled
 
-service charger /system/bin/charger
+service charger /system/bin/chargeronly
     class charger
     user system
     group system graphics input
