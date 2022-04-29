@@ -34,10 +34,10 @@ PRODUCT_PACKAGES += \
     libqcomvoiceprocessing \
     libqcompostprocbundle \
     libvolumelistener \
-    sound_trigger.primary.sm6150
+    sound_trigger.primary.sm6150:32
 
 PRODUCT_COPY_FILES += \
-     $(call find-copy-subdir-files,*,$(DEVICE_PATH)/audio/,$(TARGET_COPY_OUT_VENDOR)/etc)
+    $(call find-copy-subdir-files,*,$(DEVICE_PATH)/audio/,$(TARGET_COPY_OUT_VENDOR)/etc)
 
 PRODUCT_COPY_FILES += \
     frameworks/av/services/audiopolicy/config/audio_policy_volumes.xml:$(TARGET_COPY_OUT_VENDOR)/etc/audio_policy_volumes.xml \
@@ -129,6 +129,11 @@ PRODUCT_PACKAGES += \
     libqcomfm_jni \
     qcom.fmradio 
 
+# Framework detect
+PRODUCT_PACKAGES += \
+    libqti_vndfwk_detect.vendor \
+    libvndfwk_detect_jni.qti.vendor
+
 # Gatekeeper
 PRODUCT_PACKAGES += \
     android.hardware.gatekeeper@1.0-impl \
@@ -179,7 +184,7 @@ PRODUCT_COPY_FILES += \
     frameworks/av/media/libstagefright/data/media_codecs_google_video_le.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs_google_video_le.xml
 
 PRODUCT_COPY_FILES += \
-     $(call find-copy-subdir-files,*,$(DEVICE_PATH)/configs/media,$(TARGET_COPY_OUT_VENDOR)/etc)
+    $(call find-copy-subdir-files,*,$(DEVICE_PATH)/configs/media,$(TARGET_COPY_OUT_VENDOR)/etc)
 
 # Minijail
 PRODUCT_PACKAGES += \
@@ -310,6 +315,7 @@ PRODUCT_PACKAGES += \
     init.m51.rc \
     fstab.default \
     fstab.default.ramdisk \
+    init.audio.samsung.rc \
     init.qcom.factory.rc \
     init.qcom.rc \
     init.qcom.usb.rc \
